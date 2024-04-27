@@ -1,15 +1,21 @@
 const openButton = document.querySelector(" .open-button");
-// const closeButton = document.querySelector(" .close-button")
+const openButton2 = document.querySelector(" .open-button-2");
+
 const over = document.getElementById("over");
 const modal = document.querySelector(" .main_box");
+const modal2 = document.querySelector(" .main_box2");
 
 openButton.addEventListener("click", () => {
-  openModal();
+  openModal(modal);
 });
 
-function openModal() {
-  if (modal == null) return;
-  modal.classList.add("active");
+openButton2.addEventListener("click", () => {
+  openModal(modal2);
+});
+
+function openModal(modalElement) {
+  if (modalElement == null) return;
+  modalElement.classList.add("active");
   over.classList.add("active");
 }
 
@@ -24,5 +30,6 @@ closeButton.addEventListener("click", () => {
 function closeModal() {
   if (modal == null) return;
   modal.classList.remove("active");
+  modal2.classList.remove("active");
   over.classList.remove("active");
 }
