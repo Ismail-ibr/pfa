@@ -25,7 +25,9 @@ class Category(db.Model):
     def __str__(self):
         return str(self.idC),str(self.name)
     def get_id(self):
-        return str(self.idC)
+        return self.idC
+    def get_name(self):
+        return self.name
     
     
 class Transaction(db.Model):
@@ -38,4 +40,14 @@ class Transaction(db.Model):
     def __str__(self):
         return str(self.idT),str(self.amount),self.category,self.user,str(self.date)
     def get_id(self):
-        return str(self.idT)
+        return self.idT
+    def get_amount(self):
+        return self.amount
+    def get_cat(self):
+        categ=Category.query.filter_by(idC=self.idC).first()
+        return categ.get_name()
+    def get_date(self):
+        return self.date
+    @property
+    def is_active(self):
+        return True

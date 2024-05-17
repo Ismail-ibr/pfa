@@ -1,4 +1,75 @@
 {% extends "layout.html" %}
-{%block content%}   
-<h1> welcome</h1> 
-{% endblock %}
+{%block content%}
+    <div class="main-div">
+        <div class="nav">
+            <div class="logo">
+                <h2>Don_Ismo</h1>
+                    <h4>Saving is everything</h4>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="#">Transactions</a></li>
+                    <li><a href="#">Graphs</a></li>
+                </ul>
+            </div>
+            <div class="nav-button">
+                <h5 class="btn-1 open-button-2">Transaction<i class="fa-solid fa-plus"></i></h5>
+                <h5 class="btn-2 open-button">logout</h5>
+            </div>
+            <div class="main_box2" id="modal2">
+                <h2>Adding Transaction</h2>
+                <form method="POST">
+                    {{transactform.hidden_tag()}}
+                    <div class="user_box2">
+                        {{transactform.amount()}}
+                        {{transactform.amount.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.category()}}
+                        {{transactform.category.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.date()}}
+                        {{transactform.date.label}}
+                    </div>
+                    <div class="button_form2">
+                        {{transactform.submit()}}
+                    </div>
+                </form>
+            </div>
+            <div id="over"></div>
+
+            <div class="main_box" id="modal">
+
+                <div class="user_box">
+                    <h3>Are you sure you want to logout?</h3>
+                </div>
+                <div class="buttons_Sign_out">
+                    <div class="button_form">
+                        <a href="#" id="cancel">Cancel</a>
+                    </div>
+                    <div class="button_form">
+                        <a id="submit" href={{url_for('logout')}}>logout</a>
+                    </div>
+                </div>
+            </div>
+            <div id="over"></div>
+        </div>
+        <div class="main-content">
+            <div class="transaction">
+                {%for transact in Transac%}
+                    <div class="transac">
+                        <div class="transac_descrip">
+                            <h2>Transaction amount: {{transact.get_amount()}}</h2>
+                            <h3>Transaction Categorie: {{transact.get_cat()}}</h3>
+                            <h4>Transaction date: {{transact.get_date().strftime('%m-%d-%Y')}}</h4>
+                        </div>
+                        <div class="btns_transac">
+                            <button class="modifier">Modify</button>
+                            <button class="supprimer">Delete</button>
+                        </div>
+                    </div>
+                {%endfor%}
+        </div>
+    </div>
+{%endblock%}
