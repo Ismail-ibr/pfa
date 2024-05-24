@@ -1,0 +1,45 @@
+{%extends "layout.html"%}
+{%block content%}
+    <div class="main-div">
+        <div class="nav">
+            <div class="logo">
+                <h2>Don_Ismo</h1>
+                    <h4>Saving is everything</h4>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href={{url_for('dashboard')}}>Transactions</a></li>
+                    <li><a href="#">Graphs</a></li>
+                </ul>
+            </div>
+            <div class="nav-button">
+                <h5 class="btn-1 open-button-2">Transaction<i class="fa-solid fa-plus"></i></h5>
+                <h5 class="btn-2 open-button">logout</h5>
+            </div>
+            <div class="main_box2" id="modal2">
+                <h2>Adding Transaction</h2>
+                <form method="POST">
+                    {{transactform.hidden_tag()}}
+                    <div class="user_box2">
+                        {{transactform.amount()}}
+                        {{transactform.amount.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.category()}}
+                        {{transactform.category.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.date()}}
+                        {{transactform.date.label}}
+                    </div>
+                    <div class="button_form2">
+                        {{transactform.submit()}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="over"></div>
+
+
+{%endblock%}
