@@ -9,7 +9,7 @@
             <div class="list">
                 <ul>
                     <li><a href="#">Transactions</a></li>
-                    <li><a href="#">Graphs</a></li>
+                    <li><a href={{url_for('graphs')}}>Graphs</a></li>
                 </ul>
             </div>
             <div class="nav-button">
@@ -55,14 +55,38 @@
             </div>
             <div id="over"></div>
         </div>
+        <form method="POST">
+            <div>
+                <div>                
+                    <SELECT name="cat_filter">
+                    <OPTION Value="All" Selected>All</option>
+                    {%for cat in category%}
+                    <OPTION Value="{{cat.get_id()}}">{{cat.get_name()}}</OPTION>
+                    {%endfor%}
+                    </SELECT>
+                </div>
+                <button type="submit">filter</button>
+            </div>
+        </form>
+        <form>
+            <div>
+                {{filter_date.month()}}
+            </div>
+            <div>
+                {{filter_date.submit()}}
+            </div>
+        </form>
         <div class="main-content">
+            
+
             <div class="transaction">
                 {%for transact in Transac%}
                     <div class="transac">
                         <div class="transac_descrip">
-                            <h2>Transaction amount: {{transact.get_amount()}}</h2>
+                            <h2>Transaction Amount: {{transact.get_amount()}}</h2>
                             <h3>Transaction Categorie: {{transact.get_cat()}}</h3>
-                            <h4>Transaction date: {{transact.get_date().strftime('%m-%d-%Y')}}</h4>
+                            <h4>Transaction Date: {{transact.get_date().strftime('%d-%m-%Y')}}</h4>
+                            <h3 style='display:none'>id={{transact.get_id()}}</h3>
                         </div>
                         <div class="btns_transac">
                             <button class="modifier">Modify</button>

@@ -251,3 +251,24 @@ p {
 .main-content .icon-right img {
   margin-right: 8px;
 }
+
+  /*---------------footer-----------------*/
+  footer {
+    background: rgb(155, 153, 153);
+    padding: 5px 0px;
+    position: sticky;
+    bottom: 0;
+    width: 100vw;
+  }
+  
+  footer p {
+    text-align: center;
+    margin: 15px 0px;
+    color: #fff;
+  }
+  
+  footer p a {
+    color: #fff;
+    transition: all 0.5s;
+  }
+  /*---------------footer-----------------*/

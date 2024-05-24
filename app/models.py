@@ -9,6 +9,7 @@ class Users(db.Model):
     password=db.Column(db.String(10),nullable=False)
     email=db.Column(db.String(30),unique=True,nullable=False)
     phone=db.Column(db.Integer,unique=True,nullable=False)
+    balance=db.Column(db.Float,nullable=False,default=0.0)
     transactions=db.relationship('Transaction',backref='user',lazy=True)
     def __str__(self):
         return str(self.idU),str(self.name),str(self.password),str(self.email),str(self.phone)
@@ -20,16 +21,13 @@ class Users(db.Model):
 class Category(db.Model):
     idC=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(30),unique=True,nullable=True)
-    transactions=db.relationship('Transaction',backref='category',lazy=True)
-    
+    transactions=db.relationship('Transaction',backref='category',lazy=True) 
     def __str__(self):
         return str(self.idC),str(self.name)
     def get_id(self):
         return self.idC
     def get_name(self):
         return self.name
-    
-    
 class Transaction(db.Model):
     idT=db.Column(db.Integer,primary_key=True)
     amount=db.Column(db.Float,nullable=False)

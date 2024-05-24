@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,IntegerField,PasswordField,EmailField,DateField,FloatField
-from wtforms.validators import DataRequired,Email,ValidationError
+from wtforms.validators import DataRequired,Email,ValidationError,NumberRange
 from app.models import Users
 import datetime
 
@@ -28,6 +28,11 @@ class AddTransactionForm(FlaskForm):
     submit=SubmitField('Add Transaction')
     
     
-#class logoutbutton(FlaskForm):
-#    logout=SubmitField('logout')
-    
+class filterbymonth(FlaskForm):
+    month=IntegerField('month',validators=[NumberRange(min=1,max=12,message='month should be between 1 and 12')])
+    submit=SubmitField('Filter')
+class ModifyTransaction(FlaskForm):
+    amount=FloatField('New Amount',validators=[DataRequired()])
+    category=StringField('New category',validators=[DataRequired()])
+    date=DateField('New date',default=datetime.datetime.now())
+    submit=SubmitField('Modify')
