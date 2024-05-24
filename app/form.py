@@ -29,7 +29,7 @@ class AddTransactionForm(FlaskForm):
     
     
 class filterbymonth(FlaskForm):
-    month=IntegerField('month',validators=[NumberRange(min=1,max=12,message='month should be between 1 and 12')])
+    date=IntegerField('month',validators=[NumberRange(min=1,max=12)])
     submit=SubmitField('Filter')
 class ModifyTransaction(FlaskForm):
     amount=FloatField('New Amount',validators=[DataRequired()])

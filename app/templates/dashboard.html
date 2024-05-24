@@ -68,9 +68,10 @@
                 <button type="submit">filter</button>
             </div>
         </form>
-        <form>
+        <form method="POST">
+                {{filter_date.hidden_tag()}}
             <div>
-                {{filter_date.month()}}
+                {{filter_date.date()}}
             </div>
             <div>
                 {{filter_date.submit()}}

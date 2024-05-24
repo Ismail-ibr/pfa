@@ -3,7 +3,8 @@ from flask import render_template,redirect,url_for,flash,session,request
 from flask_login import login_user,logout_user,current_user
 from app.form import SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,filterbymonth
 from app.models import Users,Transaction,Category
-from sqlalchemy import desc
+from sqlalchemy import desc,extract
+from datetime import datetime
 
 @app.route("/",methods=['GET','POST'])
 def homepage():
@@ -54,6 +55,8 @@ def dashboard():
             transactions=Transaction.query.filter_by(idU=session['user_id'],idC=choice).order_by(desc(Transaction.date))
         form=AddTransactionForm()
         month_filter=filterbymonth()
+        if month_filter.validate_on_submit() and month_filter.submit.data:
+            transactions=Transaction.query.filter_by(idU=session['user_id']).filter(extract('month',Transaction.date)==month_filter.date.data).order_by(desc(Transaction.date))
         if form.validate_on_submit() and form.submit.data:
             amount=form.amount.data
             categ=Category.query.filter_by(name=form.category.data).first()
