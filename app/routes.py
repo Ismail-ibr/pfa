@@ -5,6 +5,8 @@ from app.form import SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,f
 from app.models import Users,Transaction,Category
 from sqlalchemy import desc,extract
 from datetime import datetime
+import matplotlib.pyplot as plt
+import io
 
 @app.route("/",methods=['GET','POST'])
 def homepage():
@@ -55,6 +57,30 @@ def dashboard():
             transactions=Transaction.query.filter_by(idU=session['user_id'],idC=choice).order_by(desc(Transaction.date))
         form=AddTransactionForm()
         month_filter=filterbymonth()
+        modify=ModifyTransaction()
+        if modify.validate_on_submit() and modify.submit.data:
+            it=modify.id.data
+            amount=modify.amount.data
+            categ=Category.query.filter_by(name=modify.category.data).first()
+            if not categ:
+                categ=Category(name=modify.category.data)
+                try:
+                    db.session.add(categ)
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    flash('error: {}'.format(str(e)),'danger')
+            try:
+                Transaction.query.filter_by(idT=it).update({
+                    'amount': amount,
+                    'idC': categ.get_id()
+                    })
+                db.session.commit()
+                flash('Transaction modified successfully','success')
+                return redirect(url_for('dashboard'))
+            except Exception as e:
+                db.session.rollback()
+                flash('an error has occured while adding transaction, please try again :{}'.format(str(e)),'danger')
         if month_filter.validate_on_submit() and month_filter.submit.data:
             transactions=Transaction.query.filter_by(idU=session['user_id']).filter(extract('month',Transaction.date)==month_filter.date.data).order_by(desc(Transaction.date))
         if form.validate_on_submit() and form.submit.data:
@@ -78,7 +104,7 @@ def dashboard():
             except Exception as e:
                 db.session.rollback()
                 flash('an error has occured while adding transaction, please try again :{}'.format(str(e)),'danger')
-        return render_template('dashboard.html',title="dashboard",filter_date=month_filter,category=category,Transac=transactions,transactform=form,style='./static/dashboard.css',script='./static/dashboard.js')
+        return render_template('dashboard.html',title="dashboard",modif=modify,filter_date=month_filter,category=category,Transac=transactions,transactform=form,style='./static/dashboard.css',script='./static/dashboard.js')
     else:
         flash('please login', 'warning')
         return redirect(url_for('homepage'))
@@ -122,3 +148,19 @@ def graphs():
                 db.session.rollback()
                 flash('an error has occured while adding transaction, please try again :{}'.format(str(e)),'danger')
     return render_template('graphs.html',title="dashboard",transactform=form,style='./static/dashboard.css',script='./static/dashboard.js')
+
+@app.route('/plot.png')
+def plot_png():
+    fig = create_figure()
+    output = io.BytesIO()
+    fig.savefig(output, format='png')
+    output.seek(0)
+    return send_file(output, mimetype='image/png')
+
+def create_figure():
+    transactions=Transaction.query.filter_by(idU=session['user_id']).order_by(desc(Transaction.date))
+    fig, ax = plt.subplots()
+    ax.plot(transactions)
+    ax.set(xlabel='month',ylabel='amount spent',title='amount spent by month')
+    ax.grid
+    return create_figure

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,IntegerField,PasswordField,EmailField,DateField,FloatField
 from wtforms.validators import DataRequired,Email,ValidationError,NumberRange
-from app.models import Users
+from app.models import Users,Transaction
 import datetime
 
 class SignUpForm(FlaskForm):
@@ -32,7 +32,7 @@ class filterbymonth(FlaskForm):
     date=IntegerField('month',validators=[NumberRange(min=1,max=12)])
     submit=SubmitField('Filter')
 class ModifyTransaction(FlaskForm):
+    id=IntegerField('Transaction id',validators=[DataRequired()])
     amount=FloatField('New Amount',validators=[DataRequired()])
     category=StringField('New category',validators=[DataRequired()])
-    date=DateField('New date',default=datetime.datetime.now())
     submit=SubmitField('Modify')

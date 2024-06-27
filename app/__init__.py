@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+
 app=Flask(__name__)
 app.config['SECRET_KEY']='b$12$fs9E/RQW1s8X0jPDPIwjBuKmX85DIDTvsuE0T.EJ1GuHkFqteWAnC'
 
