@@ -13,12 +13,14 @@ body {
 
 /*--         Design of the form Sign Up         --*/
 
-.main_box {
+.main_box,
+.main_box4 {
   display: none;
 }
 
 .main_box,
 .main_box3,
+.main_box4,
 .main_box2 {
   color: f2f4f9;
   position: fixed;
@@ -38,7 +40,7 @@ body {
   box-shadow: 0px 0px 10px white;
   border-radius: 10px;
 }
-.main_box h2,
+
 .main_box3 h2,
 .main_box2 h2 {
   font-family: "Poppins", sans-serif;
@@ -102,12 +104,14 @@ body {
 }
 
 .main_box.active,
+.main_box4.active,
 .main_box2.active,
 .main_box3.active {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.main_box h3 {
+.main_box h3,
+.main_box4 h3 {
   text-align: center;
 }
 

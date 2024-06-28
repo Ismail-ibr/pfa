@@ -1,10 +1,12 @@
 from app import app,db
-from flask import render_template,redirect,url_for,flash,session,request
+from flask import render_template,redirect,url_for,flash,session,request,send_file
 from flask_login import login_user,logout_user,current_user
 from app.form import SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,filterbymonth
 from app.models import Users,Transaction,Category
-from sqlalchemy import desc,extract
+from sqlalchemy import desc,extract,func
 from datetime import datetime
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 
@@ -116,6 +118,21 @@ def logout():
     flash('You have been logged out','info')
     return redirect(url_for('homepage'))
 
+@app.route('/delete',methods=['GET'])
+def delete():
+    if'user_id' in session:
+        idt=request.args.get('transaction_id')
+        try:
+            Transaction.query.filter_by(idT=idt).delete()
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash('an error has occured while deleting transaction, please try again :{}'.format(str(e)),'danger')
+        return redirect(url_for('dashboard'))
+    else:
+        flash('please login','warning')
+        return redirect(url_for('homepage'))
+    
 @app.route('/profile',methods=['Get','Post'])
 def Profile():
     return render_template('profile.html',title="Profile",style='./static/profile.css',script='./static/profile.js')
@@ -158,9 +175,19 @@ def plot_png():
     return send_file(output, mimetype='image/png')
 
 def create_figure():
-    transactions=Transaction.query.filter_by(idU=session['user_id']).order_by(desc(Transaction.date))
+    user_id = session['user_id']
+    results = db.session.query(Category.name, func.sum(Transaction.amount)).join(Transaction, Category.idC == Transaction.idC).filter(Transaction.idU == user_id).group_by(Category.name).all()
+
+    if not results:
+        flash('No transactions found for the current user.', 'warning')
+
+    categories = [result[0] for result in results]
+    amounts = [result[1] for result in results]
+
     fig, ax = plt.subplots()
-    ax.plot(transactions)
-    ax.set(xlabel='month',ylabel='amount spent',title='amount spent by month')
-    ax.grid
-    return create_figure
+    ax.bar(categories, amounts)
+    ax.set(xlabel='Category', ylabel='Amount Spent', title='Amount Spent in Each Category')
+    ax.grid()
+
+    return fig
+

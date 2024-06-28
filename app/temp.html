@@ -1,7 +1,0 @@
-        <SELECT>
-            <OPTION id="choice" Value="All" Selected>All</option>
-            {%for cat in category%}
-            <OPTION id="choice" Value="{{cat.get_id()}}">{{cat.get_name()}}</OPTION>
-            {%endfor%}
-            
-        </SELECT>

@@ -37,11 +37,28 @@
                     </div>
                 </form>
             </div>
+            <div id="over"></div>
+            <div class="main_box" id="modal">
+
+                <div class="user_box">
+                    <h3>Are you sure you want to logout?</h3>
+                </div>
+                <div class="buttons_Sign_out">
+                    <div class="button_form">
+                        <a href="#" id="cancel">Cancel</a>
+                    </div>
+                    <div class="button_form">
+                        <a id="submit" href={{url_for('logout')}}>logout</a>
+                    </div>
+                </div>
+            </div>
+            <div id="over"></div>
         </div>
     </div>
     <div id="over"></div>
-    <div>
-        <img src="{{ url_for('plot_png') }}" alt="Plot">
+    <div class="main-content">
+        <div>
+            <img src="{{ url_for('plot_png') }}" alt="Plot">
+        </div>
     </div>
-
 {%endblock%}

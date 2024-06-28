@@ -77,6 +77,9 @@
             {{filter_date.submit()}}
         </div>
     </form>
+    <div>
+        <a id="submit" href={{url_for('dashboard')}}>reset</a>
+    </div>
     <div class="main-content">
 
 
@@ -90,8 +93,8 @@
                     <h3 style='display:none'>id={{transact.get_id()}}</h3>
                 </div>
                 <div class="btns_transac">
-                    <button class="modifier open-button-3" >Modify</button>
-                    <button class="supprimer">Delete</button>
+                    <button class="modifier open-button-3">Modify</button>
+                    <button class="supprimer open-button-4">Delete</button>
                 </div>
                 <div class="main_box3" id="modal3">
                     <h2>Modify Transaction</h2>
@@ -112,6 +115,21 @@
                             {{modif.submit()}}
                         </div>
                     </form>
+                </div>
+                <div id="over"></div>
+                <div class="main_box4" id="modal4">
+
+                    <div class="user_box">
+                        <h3>Are you sure you want to delete this transaction?</h3>
+                    </div>
+                    <div class="buttons_Sign_out">
+                        <div class="button_form">
+                            <a href="#" id="cancel">Cancel</a>
+                        </div>
+                        <div class="button_form">
+                            <a id="submit" href="{{url_for('delete',transaction_id=transact.get_id())}}">Delete</a>
+                        </div>
+                    </div>
                 </div>
                 <div id="over"></div>
             </div>
