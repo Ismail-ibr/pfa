@@ -18,6 +18,8 @@ class Users(db.Model):
     @property
     def is_active(self):
         return True
+    def get_name(self):
+        return self.name
 class Category(db.Model):
     idC=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(30),unique=True,nullable=True)

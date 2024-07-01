@@ -4,7 +4,6 @@ from flask_login import login_user,logout_user,current_user
 from app.form import DeleteTransaction,SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,filterbymonth
 from app.models import Users,Transaction,Category
 from sqlalchemy import desc,extract,func
-from datetime import datetime
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -32,6 +31,7 @@ def homepage():
         user=Users.query.filter_by(name=login.name.data).first()
         if user and user.password==login.password.data:
             session['user_id']=user.get_id()
+            session['user_name']=user.get_name()
             login_user(user)
             flash('login sucessful','success')
             return redirect(url_for('dashboard'))
