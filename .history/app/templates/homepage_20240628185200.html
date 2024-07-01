@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+{%block content%}
+<style>
+    #over {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent black background */
+        z-index: 9;
+        /* Ensure it covers other elements */
+        opacity: 0;
+        /* Initially hidden */
+        pointer-events: none;
+        /* Initially not clickable */
+        transition: opacity 0.3s ease;
+        /* Smooth transition */
+    }
+
+    #over.active {
+        opacity: 1;
+        /* Show overlay */
+        pointer-events: all;
+        /* Make overlay clickable */
+    }
+
+    .main_box2 {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 10;
+        transition: 200ms ease-in-out;
+    }
+
+    .main_box2.active {
+        transform: translate(-50%, -50%) scale(1);
+    }
+</style>
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand">donismo</a>
+    <div>
+
+        <button class="btn btn-outline-primary my-2 my-sm-0 open-button-2">Log in</button>
+        <button class="btn btn-outline-secondary my-2 my-sm-0 open-button">Sign up</button>
+    </div>
+
+</nav>
+<div class="layout-page">
+
+</div>
+
+<div class="main_box3" id="modal3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-2">Welcome to donismo! 👋</h4>
+            <p class="mb-4">Please sign-in to your account and start the adventure</p>
+            <form id="formModifyTransaction" class="mb-3" method="POST">
+                {{login.hidden_tag()}}
+                <div class="mb-3">
+                    {{login.name.label}}
+                    <input type="text" class="form-control" id="transaction-amount" name="{{ login.name.name }}" />
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    {{login.password.label}}
+                    <div class="input-group input-group-merge">
+                        <input type="password" id="password" class="form-control" name="{{login.password.name}}"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="password" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{login.submit()}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-div">
+    <div class="nav">
+        <div class="logo">
+            <h2>Don_Ismo</h1>
+                <h4>Saving is everything</h4>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="#">Plans</a></li>
+                <li><a href="#">Find Domain</a></li>
+                <li><a href="#">Why Hostter</a></li>
+            </ul>
+        </div>
+        <div class="nav-button">
+            <h5 class="btn-1">Log in</h5>
+            <h5 class="btn-2 open-button">Sign up</h5>
+        </div>
+
+        <div class="main_box" id="modal">
+            <h2>Sign up</h2>
+            <form method='POST'>
+                {{form.hidden_tag()}}
+                <div class="user_box">
+                    <!--<input type="text" name="" required="">
+                        <label>Full Name</label>-->
+                    {{form.name()}}
+                    {{form.name.label}}
+                </div>
+                <div class="user_box">
+                    <!--<input type="email" name="" required="">
+                        <label>Email</label>-->
+                    {{form.email()}}
+                    {{form.email.label}}
+                </div>
+                <div class="user_box">
+                    <!--<input type="tel" name="" required="">
+                        <label>Number Phone</label>-->
+                    {{form.phonenumber()}}
+                    {{form.phonenumber.label}}
+                </div>
+                <div class="user_box">
+                    <!--
+                        <input type="password" name="" required="">
+                        <label>Password</label>-->
+                    {{form.password()}}
+                    {{form.password.label}}
+
+                </div>
+                <div class="button_form">
+                    <!-- <a href="#" id="submit">Submit</a>-->
+                    {{form.submit()}}
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="text">
+            <h1>Host your website in<br>less than 5 minutes.</h1>
+            <p>With Hosterr,get your website up and running in no less than 5<br>minutes with the most competitive
+                pricing packages available <br>online.</p>
+        </div>
+
+    </div>
+    <script>
+        const over = document.getElementById("over");
+        const modal2 = document.getElementById("modal2");
+
+        const button2 = document.querySelector(".open-button-2")
+
+        button2.addEventListener("click", () => {
+            modal2.classList.add("active");
+            over.classList.add("active");
+        })
+
+
+        // Close Modals
+        over.addEventListener("click", () => {
+            modal2.classList.remove("active");
+            over.classList.remove("active");
+        });
+    </script>
+    {% endblock %}

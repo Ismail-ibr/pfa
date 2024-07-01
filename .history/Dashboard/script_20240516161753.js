@@ -1,0 +1,28 @@
+const openButton2 = document.querySelector(" .open-button-2");
+
+const over = document.getElementById("over");
+const modal2 = document.querySelector(" .main_box2");
+
+openButton2.addEventListener("click", () => {
+  openModal(modal2);
+});
+
+function openModal(modalElement) {
+  if (modalElement == null) return;
+  modalElement.classList.add("active");
+  over.classList.add("active");
+}
+
+over.addEventListener("click", () => {
+  closeModal();
+});
+
+closeButton.addEventListener("click", () => {
+  closeModal();
+});
+
+function closeModal() {
+  if (modal == null) return;
+  modal2.classList.remove("active");
+  over.classList.remove("active");
+}

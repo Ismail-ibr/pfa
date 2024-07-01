@@ -1,0 +1,313 @@
+{%extends "layout.html"%}
+{%block content%}
+<style>
+    #over {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent black background */
+        z-index: 9;
+        /* Ensure it covers other elements */
+        opacity: 0;
+        /* Initially hidden */
+        pointer-events: none;
+        /* Initially not clickable */
+        transition: opacity 0.3s ease;
+        /* Smooth transition */
+    }
+
+    #over.active {
+        opacity: 1;
+        /* Show overlay */
+        pointer-events: all;
+        /* Make overlay clickable */
+    }
+
+    .main_box2,
+    .main_box3,
+    .main_box4 {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 10;
+        transition: 200ms ease-in-out;
+    }
+
+    .main_box2.active,
+    .main_box3.active,
+    .main_box4.active {
+        transform: translate(-50%, -50%) scale(1);
+    }
+</style>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <a href="index.html" class="app-brand-link">
+                    <span class="app-brand-text demo menu-text fw-bolder ms-2">DonIsmo</span>
+                </a>
+            </div>
+            <div class="menu-inner-shadow"></div>
+            <ul class="menu-inner py-1">
+                <!-- Layouts -->
+                <li class="menu-item ">
+                    <a href="{{url_for('dashboard')}}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-layout"></i>
+                        <div data-i18n="Layouts">Dashboard</div>
+                    </a>
+                </li>
+                <!-- Dashboard -->
+                <li class="menu-item active">
+                    <a href="{{url_for('graphs')}}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Graphs</div>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                id="layout-navbar">
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <li class="nav-item lh-1 me-3">
+                            <button class="btn btn-sm btn-outline-primary open-add-transaction-modal open-button-2">Add
+                                Transaction</button>
+                        </li>
+                        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                data-bs-toggle="dropdown">
+                                <div class="avatar avatar-online">
+                                    <img src="../static/assets/img/avatars/1.png" alt
+                                        class="w-px-40 h-auto rounded-circle" />
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar avatar-online">
+                                                    <img src="../static/assets/img/avatars/1.png" alt
+                                                        class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="fw-semibold d-block">John Doe</span>
+                                                <small class="text-muted">Admin</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('logout')}}">
+                                        <i class="bx bx-power-off me-2"></i>
+                                        <span class="align-middle">Log Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="row d-flex">
+                        <div class="col-lg-6 mb-4 order-0 d-flex flex-column">
+                            <div class="card flex-grow-1">
+                                <div class="d-flex align-items-end row">
+                                    <div class="col-sm-7">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="me-2">
+                                                    <span class="badge bg-label-primary p-2"><i
+                                                            class="bx bx-dollar text-primary"></i></span>
+                                                </div>
+                                                <div
+                                                    class="d-flex flex-column align-items-center justify-content-center">
+                                                    <h5 class="card-title text-primary mt-2">Transaction</h5>
+                                                </div>
+                                            </div>
+                                            <h5 class="m-0 me-2 pb-2 pt-3">Transaction Amount: <span class="fw-bold">72
+                                                    000</span></h5>
+                                            <h5 class="m-0 me-2 pb-2 pt-3">Transaction Category: <span
+                                                    class="fw-bold">Food</span></h5>
+                                            <h5 class="m-0 me-2 pb-4 pt-3">Transaction Date: <span
+                                                    class="fw-bold">27-06-2024</span></h5>
+                                            <button class="btn btn-sm btn-outline-primary open-modify-transaction-modal"
+                                                data-id="1" data-amount="72000" data-category="Food"
+                                                data-date="27-06-2024">Modify</button>
+                                            <button
+                                                class="btn btn-sm btn-outline-secondary open-delete-transaction-modal">Delete</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 text-center text-sm-left">
+                                        <div class="card-body pb-0 px-0 px-md-4">
+                                            <img src="../static/assets/img/illustrations/man-with-laptop-light.png"
+                                                height="140" alt="View Badge User"
+                                                data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                                data-app-light-img="illustrations/man-with-laptop-light.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-4 order-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="{{ url_for('plot_png') }}" alt="Plot">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Content -->
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+    <div class="main_box2" id="modal2">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-2">Adding Transaction</h4>
+                <form id="formAdd" class="mb-3" method="POST">
+                    {{transactform.hidden_tag()}}
+                    <div class="mb-3">
+                        {{transactform.amount.label}}
+                        <input type="text" class="form-control" name="{{transactform.amount.name}}"
+                            placeholder="Enter the amount" required />
+                    </div>
+                    <div class="mb-3">
+                        {{transactform.category.label}}
+                        <input type="text" class="form-control" name="{{transactform.category.name}}"
+                            placeholder="Enter the categorie" required />
+                    </div>
+                    <div class="mb-3">
+                        {{transactform.date.label}}
+                        <input type="date" class="form-control" name="{{transactform.date.name}}"
+                            placeholder="Enter the date" value="{{ transactform.date.data.strftime('%Y-%m-%d') }}"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        {{transactform.submit()}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    </form>
+
+
+    <script>
+        const over = document.getElementById("over");
+        const modal2 = document.getElementById("modal2");
+
+        const button2 = document.querySelector(".open-button-2")
+
+        button2.addEventListener("click", () => {
+            modal2.classList.add("active");
+            over.classList.add("active");
+        })
+
+
+        // Close Modals
+        over.addEventListener("click", () => {
+            modal2.classList.remove("active");
+            over.classList.remove("active");
+        });
+    </script>
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <!--------------------------------------------------->
+    <div class="main-div">
+        <div class="nav">
+            <div class="logo">
+                <h2>Don_Ismo</h1>
+                    <h4>Saving is everything</h4>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href={{url_for('dashboard')}}>Transactions</a></li>
+                    <li><a href="#">Graphs</a></li>
+                </ul>
+            </div>
+            <div class="nav-button">
+                <h5 class="btn-1 open-button-2">Transaction<i class="fa-solid fa-plus"></i></h5>
+                <h5 class="btn-2 open-button">logout</h5>
+            </div>
+            <div class="main_box2" id="modal2">
+                <h2>Adding Transaction</h2>
+                <form method="POST">
+                    {{transactform.hidden_tag()}}
+                    <div class="user_box2">
+                        {{transactform.amount()}}
+                        {{transactform.amount.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.category()}}
+                        {{transactform.category.label}}
+                    </div>
+                    <div class="user_box2">
+                        {{transactform.date()}}
+                        {{transactform.date.label}}
+                    </div>
+                    <div class="button_form2">
+                        {{transactform.submit()}}
+                    </div>
+                </form>
+            </div>
+            <div id="over"></div>
+            <div class="main_box" id="modal">
+
+                <div class="user_box">
+                    <h3>Are you sure you want to logout?</h3>
+                </div>
+                <div class="buttons_Sign_out">
+                    <div class="button_form">
+                        <a href="#" id="cancel">Cancel</a>
+                    </div>
+                    <div class="button_form">
+                        <a id="submit" href={{url_for('logout')}}>logout</a>
+                    </div>
+                </div>
+            </div>
+            <div id="over"></div>
+        </div>
+    </div>
+    <div id="over"></div>
+    <div class="main-content">
+        <div>
+
+        </div>
+    </div>
+    {%endblock%}

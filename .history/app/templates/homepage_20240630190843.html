@@ -1,0 +1,185 @@
+{% extends "layout.html" %}
+{%block content%}
+<style>
+    .layout-navbar {
+        width: 100%;
+        margin: 0;
+    }
+
+    .main-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 0 0.375rem 0.25rem rgba(161, 172, 184, 0.15);
+        border-radius: 0.375rem;
+        height: 75vh;
+    }
+
+    .text {
+        max-width: 800px;
+    }
+
+    #over {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent black background */
+        z-index: 999999;
+        /* Ensure it covers other elements */
+        opacity: 0;
+        /* Initially hidden */
+        pointer-events: none;
+        /* Initially not clickable */
+        transition: opacity 0.3s ease;
+        /* Smooth transition */
+    }
+
+    #over.active {
+        opacity: 1;
+        /* Show overlay */
+        pointer-events: all;
+        /* Make overlay clickable */
+    }
+
+    .main_box2,
+    .main_box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 10;
+        transition: 200ms ease-in-out;
+    }
+
+    .main_box2.active,
+    .main_box.active {
+        transform: translate(-50%, -50%) scale(1);
+    }
+</style>
+<div>
+
+    <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme bg-navbar-theme justify-content-between">
+        <h2 class="navbar-brand mb-0 text-center"><span
+                class="app-brand-text demo menu-text fw-bolder ms-2">DonIsmo</span></h2>
+        <div>
+
+            <button class="btn btn-outline-primary my-2 my-sm-0 open-button-2">Log in</button>
+            <button class="btn btn-outline-secondary my-2 my-sm-0 open-button">Sign up</button>
+        </div>
+
+    </nav>
+    <div class="main-content text-center d-flex flex-grow-1 justify-content-center align-items-center bg-navbar-theme bg-navbar-theme mt-3">
+        <div class="text mr-2" style="width:44vw;">
+            <h1>Welcome to DonIsmo.</h1>
+            <p>With DonIsmo, you can discover your spending habits and track your transactions<br>and get a visual representation of where your money is spent categorically.</p>
+        </div>
+        <div>
+            <img src="../static/assets/img/illustrations/background_pfa.png" alt="Home Page" style="width: 44vw; height: auto;">
+
+        </div>
+    </div>
+</div>
+
+<div class="main_box2" id="modal2">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-2">Welcome to donismo! 👋</h4>
+            <p class="mb-4">Please sign-in to your account and start the adventure</p>
+            <form class="mb-3" method="POST">
+                {{login.hidden_tag()}}
+                <div class="mb-3">
+                    {{login.name.label}}
+                    <input type="text" class="form-control" id="transaction-amount" name="{{ login.name.name }}"
+                        placeholder="Enter your name" />
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    {{login.password.label}}
+                    <div class="input-group input-group-merge">
+                        <input type="password" id="password" class="form-control" name="{{login.password.name}}"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="password" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{login.submit()}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="main_box" id="modal">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-2">Adventure starts here 🚀</h4>
+            <p class="mb-4">Make your budget management easy and fun!</p>
+
+            <form class="mb-3" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control", id="username", placeholder="Enter your username") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control", id="email", placeholder="Enter your email") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.phonenumber.label }}
+                    {{ form.phonenumber(class="form-control", id="phone", placeholder="Enter your phone number") }}
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    {{ form.password.label }}
+                    <div class="input-group input-group-merge">
+                        {{ form.password(class="form-control", id="password", aria_describedby="password") }}
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                </div>
+                {{ form.submit(class="btn btn-primary d-grid w-100") }}
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    const over = document.getElementById("over");
+    const modal2 = document.getElementById("modal2");
+    const modal = document.getElementById("modal");
+
+    const button2 = document.querySelector(".open-button-2")
+    const button = document.querySelector(".open-button")
+
+    button2.addEventListener("click", () => {
+        modal2.classList.add("active");
+        over.classList.add("active");
+    })
+
+    button.addEventListener("click", () => {
+        modal.classList.add("active");
+        over.classList.add("active");
+    })
+
+
+    // Close Modals
+    over.addEventListener("click", () => {
+        modal.classList.remove("active");
+        modal2.classList.remove("active");
+        over.classList.remove("active");
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

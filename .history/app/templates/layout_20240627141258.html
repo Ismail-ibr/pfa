@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    {%if style%}
+        <link rel="stylesheet" href={{style}}>
+    {% endif%}
+    {%if title%}
+        <title>Gestion financiere - {{title}}</title>
+    {%else%}
+        <title>Gestion financiere </title>
+    {% endif %}
+    {%if script%}
+        <script defer src={{script}}></script>
+    {%endif%}
+</head>
+<body>
+    {%block content%}
+    
+    {% endblock %}
+    <!--<footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright © 2024 DigiMedia Co., Ltd. All Rights Reserved.
+                        <br>Design: <a href="https://templatemo.com" target="_parent"
+                        title="free css templates">TemplateMo</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>-->
+</body>
+</html>

@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="main-div">
+    <div class="nav">
+        <div class="logo">
+            <h2>Don_Ismo</h1>
+                <h4>Saving is everything</h4>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="#">Transactions</a></li>
+                <li><a href={{url_for('graphs')}}>Graphs</a></li>
+            </ul>
+        </div>
+        <div class="nav-button">
+            <h5 class="btn-1 open-button-2">Transaction<i class="fa-solid fa-plus"></i></h5>
+            <h5 class="btn-2 open-button">logout</h5>
+        </div>
+        <div class="main_box2" id="modal2">
+            <h2>Adding Transaction</h2>
+            <form method="POST">
+                {{transactform.hidden_tag()}}
+                <div class="user_box2">
+                    {{transactform.amount()}}
+                    {{transactform.amount.label}}
+                </div>
+                <div class="user_box2">
+                    {{transactform.category()}}
+                    {{transactform.category.label}}
+                </div>
+                <div class="user_box2">
+                    {{transactform.date()}}
+                    {{transactform.date.label}}
+                </div>
+                <div class="button_form2">
+                    {{transactform.submit()}}
+                </div>
+            </form>
+        </div>
+        <div id="over"></div>
+
+        <div class="main_box" id="modal">
+
+            <div class="user_box">
+                <h3>Are you sure you want to logout?</h3>
+            </div>
+            <div class="buttons_Sign_out">
+                <div class="button_form">
+                    <a href="#" id="cancel">Cancel</a>
+                </div>
+                <div class="button_form">
+                    <a id="submit" href={{url_for('logout')}}>logout</a>
+                </div>
+            </div>
+        </div>
+        <div id="over"></div>
+    </div>
+    <form method="POST">
+        <div>
+            <div>
+                <SELECT name="cat_filter">
+                    <OPTION Value="All" Selected>All</option>
+                    {%for cat in category%}
+                    <OPTION Value="{{cat.get_id()}}">{{cat.get_name()}}</OPTION>
+                    {%endfor%}
+                </SELECT>
+            </div>
+            <button type="submit">filter</button>
+        </div>
+    </form>
+    <form method="POST">
+        {{filter_date.hidden_tag()}}
+        <div>
+            {{filter_date.date()}}
+        </div>
+        <div>
+            {{filter_date.submit()}}
+        </div>
+    </form>
+    <div class="main-content">
+
+
+        <div class="transaction">
+            {%for transact in Transac%}
+            <div class="transac">
+                <div class="transac_descrip">
+                    <h2>Transaction Amount: {{transact.get_amount()}}</h2>
+                    <h3>Transaction Categorie: {{transact.get_cat()}}</h3>
+                    <h4>Transaction Date: {{transact.get_date().strftime('%d-%m-%Y')}}</h4>
+                    <h3 style='display:none'>id={{transact.get_id()}}</h3>
+                </div>
+                <div class="btns_transac">
+                    <button class="modifier open-button-3">Modify</button>
+                    <button class="supprimer">Delete</button>
+                </div>
+                <div class="main_box3" id="modal3">
+                    <h2>Modify Transaction</h2>
+                    <form method="POST">
+                        {{modify.hidden_tag()}}
+                        <div class="user_box2">
+                            <input name="{{ modify.amount.name }}" type="text"
+                                value="{{transact.get_amount()}}" />{{modify.amount.label}}
+                        </div>
+                        <div class="user_box2">
+                            <input name="{{ modify.category.name }}" type="text"
+                                value="{{transact.get_cat()}}" />{{ modify.category.label }}
+                        </div>
+                        <div class="button_form2">
+                            {{modify.submit()}}
+                        </div>
+                    </form>
+                </div>
+                <div id="over"></div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    {%endblock%}

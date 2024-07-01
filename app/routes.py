@@ -1,7 +1,7 @@
 from app import app,db
 from flask import render_template,redirect,url_for,flash,session,request,send_file
 from flask_login import login_user,logout_user,current_user
-from app.form import SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,filterbymonth
+from app.form import DeleteTransaction,SignUpForm,LoginForm,AddTransactionForm,ModifyTransaction,filterbymonth
 from app.models import Users,Transaction,Category
 from sqlalchemy import desc,extract,func
 from datetime import datetime
@@ -106,7 +106,19 @@ def dashboard():
             except Exception as e:
                 db.session.rollback()
                 flash('an error has occured while adding transaction, please try again :{}'.format(str(e)),'danger')
-        return render_template('dashboard.html',title="dashboard",modif=modify,filter_date=month_filter,category=category,Transac=transactions,transactform=form,style='./static/dashboard.css',script='./static/dashboard.js')
+        delete = DeleteTransaction()
+        if delete.validate_on_submit() and delete.submit.data:
+            idt = delete.id.data  # Check if idt is correctly retrieved
+            print(f"Transaction ID to delete: {idt}")  # Debug print to check the value
+            try:
+                Transaction.query.filter_by(idT=idt).delete()
+                db.session.commit()
+                flash('Transaction deleted successfully', 'success')
+            except Exception as e:
+                db.session.rollback()
+                flash('An error occurred while deleting transaction, please try again: {}'.format(str(e)), 'danger')
+            return redirect(url_for('dashboard'))
+        return render_template('page_version_2.html',title="dashboard",delete=DeleteTransaction(),modif=modify,filter_date=month_filter,category=category,Transac=transactions,transactform=form,style='./static/dashboard.css',script='./static/dashboard.js')
     else:
         flash('please login', 'warning')
         return redirect(url_for('homepage'))
@@ -118,24 +130,10 @@ def logout():
     flash('You have been logged out','info')
     return redirect(url_for('homepage'))
 
-@app.route('/delete',methods=['GET'])
-def delete():
-    if'user_id' in session:
-        idt=request.args.get('transaction_id')
-        try:
-            Transaction.query.filter_by(idT=idt).delete()
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            flash('an error has occured while deleting transaction, please try again :{}'.format(str(e)),'danger')
-        return redirect(url_for('dashboard'))
-    else:
-        flash('please login','warning')
-        return redirect(url_for('homepage'))
-    
 @app.route('/profile',methods=['Get','Post'])
 def Profile():
     return render_template('profile.html',title="Profile",style='./static/profile.css',script='./static/profile.js')
+
 
 
 
@@ -186,8 +184,7 @@ def create_figure():
 
     fig, ax = plt.subplots()
     ax.bar(categories, amounts)
-    ax.set(xlabel='Category', ylabel='Amount Spent', title='Amount Spent in Each Category')
+    ax.set(xlabel='Category', ylabel='Amount Spent', title='Amount Spent by Category')
     ax.grid()
 
     return fig
-

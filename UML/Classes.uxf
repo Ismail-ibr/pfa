@@ -1,0 +1,41 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>250</x><y>0</y><w>210</w><h>190</h></coordinates><panel_attributes>	User
+
+--
+
+_-idU: Int_
+-name: String
+-password: String
+-email: String
+--
+
++sign_up(): Void
++login(): Void
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>300</y><w>210</w><h>110</h></coordinates><panel_attributes>Category
+
+--
+
+_-idC: Int_
+-name: String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>290</y><w>210</w><h>150</h></coordinates><panel_attributes>Transaction
+--
+
+_-idT: Int_
+-amount: Float
+- date: Date
+--
+
++modify(): Void
++delete(): Void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>330</y><w>360</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1
+belongs to&gt;</panel_attributes><additional_attributes>10;20;340;20</additional_attributes></element><element><id>Relation</id><coordinates><x>60</x><y>160</y><w>210</w><h>150</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1..n
+&lt; executes</panel_attributes><additional_attributes>10;130;10;20;190;20</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>160</y><w>220</w><h>160</h></coordinates><panel_attributes>lt=-
+m1=1..n
+m2=0..n
+defines &gt;</panel_attributes><additional_attributes>10;20;180;20;180;140</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>390</y><w>360</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1..n
+m2=1..n</panel_attributes><additional_attributes>10;10;340;10</additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>390</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>470</y><w>100</w><h>30</h></coordinates><panel_attributes>Graph</panel_attributes><additional_attributes></additional_attributes></element></diagram>
